@@ -1,20 +1,20 @@
 [
     {
-        "id": 1,
+        "id": "1",
         "title": "Savage",
         "album": "Suga",
         "interpret": "Megan Thee Stallion",
         "year": "2020"
     },
     {
-        "id": 2,
+        "id": "2",
         "title": "Physical",
         "album": "Future Nostalgia",
         "interpret": "Dua Lipa",
         "year": "2020"
     },
     {
-        "id": 3,
+        "id": "3",
         "title": "Rain on me",
         "album": "Chromatica",
         "interpret": "Lady Gaga",

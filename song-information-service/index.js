@@ -12,11 +12,7 @@ const url = 'mongodb://localhost:27017';
 const dbName = 'information';
  
 app.get('/:id', (req, res) => {
-	if (isNaN(req.params.id)) {
-		res.status(400).send('Invalid ID');
-		return;
-	}
-	const id = +req.params.id;
+	const id = req.params.id;
 	MongoClient.connect(url, function(err, client) {
 		if (err) {
 			res.status(500).send('Could not connect to server');
