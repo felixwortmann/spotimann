@@ -6,7 +6,7 @@ const app = express();
 const port = 8080;
  
 // Connection URL
-const url = 'mongodb://localhost:27017';
+const url = 'mongodb://database-song-information-service:27017';
  
 // Database Name
 const dbName = 'information';
