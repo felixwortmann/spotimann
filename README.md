@@ -26,8 +26,14 @@ docker exec -it spotimann_keycloak_1 /opt/jboss/keycloak/bin/standalone.sh -Djbo
 | database-song-information-service | 27017 |
 | keycloak                          | 8180  |
 
-## Setup Keycloak
+## Keycloak
+
+### Setup
 
 Sollte sich die Keycloak-Konfiguration ändern, muss der Docker-Container für Keycloak vorher gelöscht werden, damit der Import der neuen Daten erfolgreich abläuft.
 
 Dazu muss folgender Befehl ausgeführt werden: `docker rm spotimann_keycloak_1`.
+
+### Technische Dinge
+
+Unter http://localhost:8180/auth/realms/spotimann/protocol/openid-connect/certs kann ein JSON abgerufen werden, das Infos zu dem verwendeten Public RSA Key enthält.
