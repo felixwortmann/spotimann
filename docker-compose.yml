@@ -10,6 +10,7 @@ services:
       - KEYCLOAK_USER=admin
       - KEYCLOAK_PASSWORD=admin
       - KEYCLOAK_IMPORT=/store/spotimann.json
+  
   database-song-information-service:
     image: 'mongo'
     container_name: 'database-song-information-service'
@@ -17,15 +18,24 @@ services:
       - mongodata:/data/db 
     ports:
       - '27017:27017'
+  
   node-song-information-service:
-    image: node
+    build:
+      context: ./song-information-service
+      dockerfile: Dockerfile
     ports:
-      - 8080:8080
+      - 3001:8080
     container_name: node-song-information-service
-    volumes:
-      - ./song-information-service:/src
-    command: "node src/index.js"
     depends_on:
       - database-song-information-service
+  
+  vue-frontend:
+    build:
+      context: ./frontend-vue
+      dockerfile: Dockerfile
+    ports:
+     - 3000:8080
+    container_name: vue-frontend
+    
 volumes:
   mongodata:
