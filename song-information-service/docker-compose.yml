@@ -1,0 +1,11 @@
+version: '3'
+services:
+    database-song-information-service:
+        image: 'mongo'
+        container_name: 'song-information-mongo'
+        volumes:
+            - mongodata:/data/db 
+        ports:
+            - '27017:27017'
+volumes:
+    mongodata:
