@@ -1,0 +1,12 @@
+version: "3.8"
+services:
+  keycloak:
+    image: quay.io/keycloak/keycloak:11.0.2
+    ports:
+      - "8080:8080"
+    volumes:
+      - .:/code
+      - logvolume01:/var/log
+    environment: 
+      - KEYCLOAK_USER=admin
+      - KEYCLOAK_PASSWORD=admin
