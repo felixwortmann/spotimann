@@ -1,5 +1,11 @@
 <template>
   <li class="song-tile" :class="{ expanded: expanded }">
+    <audio :id="'audio' + this.song.id">
+      <source
+        :src="'http://localhost:3003/' + this.song.id + '.mp3'"
+        type="audio/mpeg"
+      />
+    </audio>
     <div class="top-section" @click="clicked()">
       <div class="note-image">
         <img src="/music.svg" alt="" />
@@ -20,7 +26,7 @@
           </div>
         </div>
         <div class="progress-bar">
-          <div class="progress" :style="{'width': progress * 100 + '%'}"></div>
+          <div class="progress" :style="{ width: progress * 100 + '%' }"></div>
         </div>
       </div>
     </div>
@@ -28,7 +34,9 @@
       <div class="controls">
         <i class="material-icons">skip_previous</i>
         <i class="material-icons">fast_rewind</i>
-        <i class="material-icons">play_arrow</i>
+        <i @click="togglePlayback()" class="material-icons">{{
+          playing ? "pause" : "play_arrow"
+        }}</i>
         <i class="material-icons">fast_forward</i>
         <i class="material-icons">skip_next</i>
       </div>
@@ -57,7 +65,16 @@ export default {
   data() {
     return {
       rating: null,
-      progress: Math.random()
+      progress: 0,
+      playing: false,
+    };
+  },
+  mounted() {
+    let audio = document.getElementById("audio" + this.song.id);
+    audio.ontimeupdate = () => {
+      this.$nextTick(function () {
+        this.progress = audio.currentTime / audio.duration;
+      });
     };
   },
   methods: {
@@ -69,8 +86,16 @@ export default {
           // load rating from rating-service
           this.rating = Math.round(Math.random() * 10);
         }
-        console.log(this.song.title);
       }
+    },
+    togglePlayback() {
+      let audio = document.getElementById("audio" + this.song.id);
+      if (this.playing) {
+        audio.pause();
+      } else {
+        audio.play();
+      }
+      this.playing = !this.playing;
     },
   },
 };
