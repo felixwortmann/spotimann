@@ -15,6 +15,7 @@ const port = 8080;
 
 // Database information
 const url = 'mongodb://database-rating-service:27017';
+// const url = 'mongodb://localhost:2000';
 const dbName = 'ratings';
 const dbCollection = 'ratings';
 
@@ -65,9 +66,34 @@ function getKeyCloakToken(res) {
 	});
 }
 
-// Get ratings for song id
-app.get('/:id', (req, res) => {
 
+// Function to get the average rating pipeline for a given song ID
+function getAverageRatingPipeline(songID) {
+	return [
+		{
+			'$match': {
+				'songID': songID
+			}
+		}, {
+			'$group': {
+				'_id': '$songID', 
+				'averageRating': {
+					'$avg': '$rating'
+				}
+			}
+		}, {
+			'$project': {
+				'_id': 0, 
+				'songID': '$_id', 
+				'averageRating': 1
+			}
+		}
+	];
+}
+
+// Get average rating for song id
+app.get('/songID/:id/ratings', (req, res) => {
+	
 	const songID = req.params.id;
 
 	// Connect to database
@@ -80,20 +106,20 @@ app.get('/:id', (req, res) => {
 		const db = client.db(dbName);
 		const collection = db.collection(dbCollection);
 
-    // Query all ratings for given song id
-		collection.findOne({'songID': songID}, (err, song) => {
-			if (err) {
+		collection.aggregate(getAverageRatingPipeline(songID)).toArray().then(result => {
+				if (result.length) {
+					res.status(200).json(result[0]);
+				} else {
+					res.status(404).send('Not found');
+				}
+			})
+			.catch(err => {
+				console.warn(err);
 				res.status(500).send('Failed to process query');
-				return;
-			}
-			if (!song) {
-				res.status(404).send('Could not find entity with given ID');
-				return;
-			}
-			res.json(song.ratings);
-		});
-	 
-		client.close();
+			})
+			.finally(_ => {
+				client.close();
+			})
 	});
 });
 
