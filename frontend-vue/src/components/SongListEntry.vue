@@ -1,6 +1,6 @@
 <template>
   <li class="song-tile" :class="{ expanded: expanded }">
-    <audio id="audio">
+    <audio :id="'audio' + this.song.id">
       <source
         :src="'http://localhost:3003/' + this.song.id + '.mp3'"
         type="audio/mpeg"
@@ -34,7 +34,7 @@
       <div class="controls">
         <i class="material-icons">skip_previous</i>
         <i class="material-icons">fast_rewind</i>
-        <i @click="playSong()" class="material-icons">{{
+        <i @click="togglePlayback()" class="material-icons">{{
           playing ? "pause" : "play_arrow"
         }}</i>
         <i class="material-icons">fast_forward</i>
@@ -70,12 +70,10 @@ export default {
     };
   },
   mounted() {
-    let audio = document.getElementById("audio");
-    audio.ontimeupdate = (event) => {
+    let audio = document.getElementById("audio" + this.song.id);
+    audio.ontimeupdate = () => {
       this.$nextTick(function () {
-        this.progress = event.timeStamp / (audio.duration * 1000);
-        console.log(this.progress);
-        console.log(this);
+        this.progress = audio.currentTime / audio.duration;
       });
     };
   },
@@ -88,12 +86,10 @@ export default {
           // load rating from rating-service
           this.rating = Math.round(Math.random() * 10);
         }
-        console.log(this.song.title);
       }
     },
-    playSong() {
-      console.log(this.song);
-      var audio = document.getElementById("audio");
+    togglePlayback() {
+      let audio = document.getElementById("audio" + this.song.id);
       if (this.playing) {
         audio.pause();
       } else {
