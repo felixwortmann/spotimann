@@ -12,7 +12,7 @@ let pem;
 const port = 8080;
 
 // Database information
-const url = 'mongodb://localhost:27018';
+const url = 'mongodb://database-rating-service:27017';
 const dbName = 'ratings';
 const dbCollection = 'ratings';
 
@@ -53,7 +53,7 @@ app.use(function (req, res, next) {
 
 // Function to request keycloak token
 function getKeyCloakToken(res) {
-	return axios.get('http://localhost:8180/auth/realms/spotimann/protocol/openid-connect/certs').then(response => {
+	return axios.get('http://keycloak:8080/auth/realms/spotimann/protocol/openid-connect/certs').then(response => {
 		pem = jwkToPem(response.data.keys[0]);
 	})
 	.catch(err => {

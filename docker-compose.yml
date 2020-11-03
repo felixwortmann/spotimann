@@ -4,6 +4,7 @@ services:
   ### KEYCLOAK ###
   keycloak:
     image: quay.io/keycloak/keycloak:11.0.2
+    container_name: "keycloak"
     ports:
       - "8180:8080"
     volumes:
@@ -37,6 +38,14 @@ services:
     container_name: node-song-information-service
     depends_on:
       - database-song-information-service
+  
+  node-song-streaming-service:
+    build:
+      context: ./song-streaming-service
+      dockerfile: Dockerfile
+    ports:
+      - 3003:8080
+    container_name: node-song-streaming-service
 
   ### RATING SERVICE ###
   database-rating-service:
