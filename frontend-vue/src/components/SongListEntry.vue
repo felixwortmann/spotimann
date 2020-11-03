@@ -16,7 +16,7 @@
           </div>
 
           <div>
-            <span class="artist"> {{ song.interpret }}, {{ song.year }} </span>
+            <span class="artist"> {{ song.artist }}, {{ song.year }} </span>
           </div>
         </div>
         <div class="progress-bar">

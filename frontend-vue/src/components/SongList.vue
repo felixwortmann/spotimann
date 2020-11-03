@@ -16,13 +16,13 @@
 <script>
 import SongListEntry from "./SongListEntry";
 
-import songlist from "../../../song-information-service/database/songs.json";
+import SongService from '../service/SongService';
 
 export default {
   components: { SongListEntry },
   data() {
     return {
-      songs: songlist,
+      songs: [],
       expandedId: null,
     };
   },
@@ -35,6 +35,11 @@ export default {
       }
     },
   },
+  created() {
+    SongService.getAllSongs().then((songs) => {
+      this.songs = songs;
+    });
+  }
 };
 </script>
 
