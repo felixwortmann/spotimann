@@ -1,42 +1,42 @@
 [
   {
-    "songID": "abc",
+    "songID": "1",
     "authorID": "karl",
     "rating": 1
   },
   {
-    "songID": "abc",
+    "songID": "2",
     "authorID": "dieter",
     "rating": 6
   },
   {
-    "songID": "abc",
+    "songID": "3",
     "authorID": "manfred",
     "rating": 10
   },
   {
-    "songID": "abc",
+    "songID": "4",
     "authorID": "klaus",
     "rating": 2
   },
   {
-    "songID": "def",
+    "songID": "4",
     "authorID": "karl",
     "rating": 7
   },
   {
-    "songID": "def",
+    "songID": "6",
     "authorID": "albert",
     "rating": 9
   },
   {
-    "songID": "def",
+    "songID": "7",
     "authorID": "eberhard",
     "rating": 9
   },
   {
-    "songID": "ghi",
+    "songID": "1",
     "authorID": "petra",
-    "rating": 2
+    "rating": 3
   }
 ]

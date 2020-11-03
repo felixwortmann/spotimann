@@ -79,9 +79,8 @@ export default {
         if (this.rating === null) {
           // load rating from rating-service
           RatingService.getRatingForSong(this.song.id).then(rating => {
-            console.log(rating);
+            this.rating = rating.averageRating || 0;
           })
-          this.rating = Math.round(Math.random() * 10);
         }
         console.log(this.song.title);
       }

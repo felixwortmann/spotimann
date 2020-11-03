@@ -110,7 +110,7 @@ app.get('/songID/:id/ratings', (req, res) => {
 				if (result.length) {
 					res.status(200).json(result[0]);
 				} else {
-					res.status(404).send('Not found');
+					res.status(200).json({averageRating: null});
 				}
 			})
 			.catch(err => {

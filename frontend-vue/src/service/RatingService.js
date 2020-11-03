@@ -5,7 +5,7 @@ const baseUrl = 'http://localhost:3002/'
 
 class RatingService {
   getRatingForSong(id) {
-    return axios.get(baseUrl + id, {
+    return axios.get(baseUrl + 'songID/' + id + '/ratings', {
       headers: {
         Authorization: 'Bearer ' + Authentication.getToken()
       }
