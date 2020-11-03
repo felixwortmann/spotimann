@@ -1,6 +1,6 @@
 <template>
   <li class="song-tile" :class="{ expanded: expanded }">
-    <audio :id="'audio' + this.song.id">
+    <audio ref="audio-tag">
       <source
         :src="'http://localhost:3003/' + this.song.id + '.mp3'"
         type="audio/mpeg"
@@ -32,13 +32,13 @@
     </div>
     <div class="player-section">
       <div class="controls">
-        <i class="material-icons">skip_previous</i>
-        <i class="material-icons">fast_rewind</i>
-        <i @click="togglePlayback()" class="material-icons">{{
+        <i @click="this.$emit('skip', -1)" class="material-icons">skip_previous</i>
+        <i @click="wind(-5)" class="material-icons">fast_rewind</i>
+        <i @click="this.$emit('togglePlayback')" class="material-icons">{{
           playing ? "pause" : "play_arrow"
         }}</i>
-        <i class="material-icons">fast_forward</i>
-        <i class="material-icons">skip_next</i>
+        <i @click="wind(5)" class="material-icons">fast_forward</i>
+        <i @click="this.$emit('skip', +1)" class="material-icons">skip_next</i>
       </div>
       <div class="ratings" v-if="this.rating != null">
         <i v-for="i in this.rating" class="material-icons gold" v-bind:key="i">
@@ -61,21 +61,31 @@ export default {
   props: {
     song: Object,
     expanded: Boolean,
+    playing: Boolean,
   },
   data() {
     return {
       rating: null,
       progress: 0,
-      playing: false,
     };
   },
   mounted() {
-    let audio = document.getElementById("audio" + this.song.id);
+    let audio = this.$refs["audio-tag"];
     audio.ontimeupdate = () => {
       this.$nextTick(function () {
         this.progress = audio.currentTime / audio.duration;
       });
     };
+  },
+  watch: {
+    playing: function (val) {
+      let audio = this.$refs["audio-tag"];
+      if (val) {
+        audio.play();
+      } else {
+        audio.pause();
+      }
+    },
   },
   methods: {
     clicked() {
@@ -88,15 +98,10 @@ export default {
         }
       }
     },
-    togglePlayback() {
-      let audio = document.getElementById("audio" + this.song.id);
-      if (this.playing) {
-        audio.pause();
-      } else {
-        audio.play();
-      }
-      this.playing = !this.playing;
-    },
+    wind(seconds) {
+      let audio = this.$refs["audio-tag"];
+      audio.currentTime += seconds;
+    }
   },
 };
 </script>
