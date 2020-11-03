@@ -6,7 +6,42 @@ services:
       - "8180:8080"
     volumes:
       - ./keycloak/files:/store
-    environment: 
+    environment:
       - KEYCLOAK_USER=admin
       - KEYCLOAK_PASSWORD=admin
       - KEYCLOAK_IMPORT=/store/spotimann.json
+
+  database-song-information-service:
+    image: "mongo"
+    container_name: "database-song-information-service"
+    volumes:
+      - mongodata:/data/db
+    ports:
+      - "27017:27017"
+  mongo-seed-song-information:
+    build:
+      context: ./song-information-service/database
+      dockerfile: Dockerfile
+    depends_on:
+      - database-song-information-service
+
+  node-song-information-service:
+    build:
+      context: ./song-information-service
+      dockerfile: Dockerfile
+    ports:
+      - 3001:8080
+    container_name: node-song-information-service
+    depends_on:
+      - database-song-information-service
+
+  vue-frontend:
+    build:
+      context: ./frontend-vue
+      dockerfile: Dockerfile
+    ports:
+      - 3000:8080
+    container_name: vue-frontend
+
+volumes:
+  mongodata:
