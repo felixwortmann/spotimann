@@ -23,6 +23,7 @@ docker exec -it spotimann_keycloak_1 /opt/jboss/keycloak/bin/standalone.sh -Djbo
 | --------------------------------- | ----- |
 | Vue Frontend                      | 3000  |
 | node-song-information-service     | 3001  |
+| node-song-streaming-service       | 3002  |
 | database-song-information-service | 27017 |
 | keycloak                          | 8180  |
 
