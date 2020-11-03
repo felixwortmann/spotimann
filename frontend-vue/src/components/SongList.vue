@@ -8,6 +8,9 @@
         v-bind:key="s.id"
         :expanded="s.id == expandedId"
         @expand="expand(s)"
+        :playing="s.id == playingId"
+        @togglePlayback="togglePlayback(s)"
+        @skip="switchSong($event)"
       ></SongListEntry>
     </ul>
   </div>
@@ -24,6 +27,7 @@ export default {
     return {
       songs: [],
       expandedId: null,
+      playingId: null
     };
   },
   methods: {
@@ -34,6 +38,21 @@ export default {
         this.expandedId = item.id;
       }
     },
+    togglePlayback(item) {
+      if (this.playingId == item.id) {
+        this.playingId = null;
+      } else {
+        this.playingId = item.id;
+      }
+    },
+    switchSong(by) {
+      let current = this.playingId || this.expandedId;
+      let next = by + current * 1;
+      if (this.songs[next-1] != undefined) {
+        this.playingId = next;
+        this.expandedId = next;
+      }
+    }
   },
   created() {
     SongService.getAllSongs().then((songs) => {
