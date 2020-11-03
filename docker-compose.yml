@@ -34,6 +34,14 @@ services:
     container_name: node-song-information-service
     depends_on:
       - database-song-information-service
+  
+  node-song-streaming-service:
+    build:
+      context: ./song-streaming-service
+      dockerfile: Dockerfile
+    ports:
+      - 3003:8080
+    container_name: node-song-streaming-service
 
   vue-frontend:
     build:
