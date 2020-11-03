@@ -10,8 +10,29 @@ const url = 'mongodb://database-song-information-service:27017';
  
 // Database Name
 const dbName = 'information';
+
+app.get('/songs', (req, res) => {
+	MongoClient.connect(url, function(err, client) {
+		if (err) {
+			res.status(500).send('Could not connect to server');
+		 	return;
+		}
+	 
+		const db = client.db(dbName);
+		const collection = db.collection('songs');
+
+		collection.find()
+			.sort({id: 1})
+			.toArray()
+			.then(songs => {
+				res.json(songs);
+			});
+
+		client.close();
+	});
+})
  
-app.get('/:id', (req, res) => {
+app.get('/songs/:id', (req, res) => {
 	const id = req.params.id;
 	MongoClient.connect(url, function(err, client) {
 		if (err) {
