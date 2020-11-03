@@ -1,0 +1,41 @@
+[
+  {
+    "songID": "1",
+    "ratings": [
+      {
+        "authorID": "1",
+        "authorName": "Karl",
+        "rating": 9,
+        "comment": "Wunderschön!"
+      },
+      {
+        "authorID": "2",
+        "authorName": "Manfred",
+        "rating": 2,
+        "comment": "Ekelhaff!"
+      },
+      {
+        "authorID": "4",
+        "authorName": "Dieter",
+        "rating": 1,
+        "comment": null
+      }
+    ]
+  },
+  {
+    "songID": "2",
+    "ratings": [
+      {
+        "authorID": "1",
+        "authorName": "Karl",
+        "rating": 10,
+        "comment": "Meine Französischlehrering würde sagen: Magnifique!"
+      }
+    ]
+  },
+  {
+    "songID": "3",
+    "ratings": [
+    ]
+  }
+]

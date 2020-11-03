@@ -1,7 +1,10 @@
 version: "3.8"
 services:
+
+  ### KEYCLOAK ###
   keycloak:
     image: quay.io/keycloak/keycloak:11.0.2
+    container_name: "keycloak"
     ports:
       - "8180:8080"
     volumes:
@@ -11,11 +14,12 @@ services:
       - KEYCLOAK_PASSWORD=admin
       - KEYCLOAK_IMPORT=/store/spotimann.json
 
+  ### SONG INFORMATION SERVICE ###
   database-song-information-service:
     image: "mongo"
     container_name: "database-song-information-service"
     volumes:
-      - mongodata:/data/db
+      - mongo-data-song-information:/data/db
     ports:
       - "27017:27017"
   mongo-seed-song-information:
@@ -43,6 +47,33 @@ services:
       - 3003:8080
     container_name: node-song-streaming-service
 
+  ### RATING SERVICE ###
+  database-rating-service:
+    image: "mongo"
+    container_name: "database-rating-service"
+    volumes:
+      - mongo-data-rating:/data/db
+    ports:
+      - "27018:27017"
+  mongo-seed-rating:
+    build:
+      context: ./rating-service/database
+      dockerfile: Dockerfile
+    depends_on:
+      - database-rating-service
+
+  node-rating-service:
+    build:
+      context: ./rating-service
+      dockerfile: Dockerfile
+    ports:
+      - 3002:8080
+    container_name: node-rating-service
+    depends_on:
+      - database-rating-service
+      - keycloak
+
+  ### FRONTEND ###
   vue-frontend:
     build:
       context: ./frontend-vue
@@ -52,4 +83,5 @@ services:
     container_name: vue-frontend
 
 volumes:
-  mongodata:
+  mongo-data-song-information:
+  mongo-data-rating:
