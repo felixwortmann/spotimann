@@ -1,5 +1,11 @@
 <template>
   <li class="song-tile" :class="{ expanded: expanded }">
+    <audio ref="audio-tag">
+      <source
+        :src="'http://localhost:3003/' + this.song.id + '.mp3'"
+        type="audio/mpeg"
+      />
+    </audio>
     <div class="top-section" @click="clicked()">
       <div class="note-image">
         <img src="/music.svg" alt="" />
@@ -26,11 +32,13 @@
     </div>
     <div class="player-section">
       <div class="controls">
-        <i class="material-icons">skip_previous</i>
-        <i class="material-icons">fast_rewind</i>
-        <i class="material-icons">play_arrow</i>
-        <i class="material-icons">fast_forward</i>
-        <i class="material-icons">skip_next</i>
+        <i @click="this.$emit('skip', -1)" class="material-icons">skip_previous</i>
+        <i @click="wind(-5)" class="material-icons">fast_rewind</i>
+        <i @click="this.$emit('togglePlayback')" class="material-icons">{{
+          playing ? "pause" : "play_arrow"
+        }}</i>
+        <i @click="wind(5)" class="material-icons">fast_forward</i>
+        <i @click="this.$emit('skip', +1)" class="material-icons">skip_next</i>
       </div>
       <div
         class="ratings"
@@ -63,13 +71,32 @@ export default {
   props: {
     song: Object,
     expanded: Boolean,
+    playing: Boolean,
   },
   data() {
     return {
       rating: null,
       previewRate: null,
-      progress: Math.random(),
+      progress: 0,
     };
+  },
+  mounted() {
+    let audio = this.$refs["audio-tag"];
+    audio.ontimeupdate = () => {
+      this.$nextTick(function () {
+        this.progress = audio.currentTime / audio.duration;
+      });
+    };
+  },
+  watch: {
+    playing: function (val) {
+      let audio = this.$refs["audio-tag"];
+      if (val) {
+        audio.play();
+      } else {
+        audio.pause();
+      }
+    },
   },
   methods: {
     clicked() {
@@ -82,11 +109,14 @@ export default {
             this.rating = rating.averageRating || 0;
           })
         }
-        console.log(this.song.title);
       }
     },
     rate(rating) {
       console.log("rate", rating);
+    },
+    wind(seconds) {
+      let audio = this.$refs["audio-tag"];
+      audio.currentTime += seconds;
     },
   },
 };
