@@ -15,7 +15,7 @@ class Authentication {
         })
 
         this.instance = new keycloak();
-        this.instance.init({
+        this.init = this.instance.init({
             onLoad: 'check-sso',
             silentCheckSsoRedirectUri: window.location.origin + '/silent-check-sso.html'
           }).then((authenticated) => {
@@ -54,7 +54,14 @@ class Authentication {
     }
 
     getToken() {
-        return this.instance.token;
+        if (this.instance.token) {
+            return Promise.resolve(this.instance.token);
+        } else {
+            return this.init.then(() => {
+                console.log("finished the init")
+                return this.instance.token
+            })
+        }
     }
 }
 

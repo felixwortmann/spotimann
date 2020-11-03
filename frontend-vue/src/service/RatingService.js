@@ -1,15 +1,12 @@
 import axios from 'axios'
+import ApiService from './ApiService'
 import Authentication from './Authentication'
 
 const baseUrl = 'http://localhost:3002/'
 
-class RatingService {
+class RatingService extends ApiService {
   getRatingForSong(id) {
-    return axios.get(baseUrl + 'songID/' + id + '/ratings', {
-      headers: {
-        Authorization: 'Bearer ' + Authentication.getToken()
-      }
-    }).then(response => {
+    return this.authorizedRequest(baseUrl + 'songID/' + id + '/ratings').then(response => {
       return response.data
     })
   }

@@ -15,10 +15,6 @@ export default {
             auth: auth
         }
     },
-    created() {
-        console.log("Created Login Button");
-        console.log(auth.getToken());
-    },
     methods: {
         login() {
             console.log("Login");

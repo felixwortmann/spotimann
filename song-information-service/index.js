@@ -1,4 +1,5 @@
 const express = require('express');
+const cors = require('cors');
 const MongoClient = require('mongodb').MongoClient;
 const jwkToPem = require('jwk-to-pem');
 const jsonwebtoken = require('jsonwebtoken');
@@ -6,6 +7,7 @@ const axios = require('axios');
 
 // Server stuff
 const app = express();
+app.use(cors());
 const port = 8080;
  
 // Database stuff

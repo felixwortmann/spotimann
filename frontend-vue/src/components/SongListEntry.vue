@@ -32,7 +32,7 @@
     </div>
     <div class="player-section">
       <div class="controls">
-        <i @click="this.$emit('skip', -1)" class="material-icons">skip_previous</i>
+        <i @click="backSkip()" class="material-icons">skip_previous</i>
         <i @click="wind(-5)" class="material-icons">fast_rewind</i>
         <i @click="this.$emit('togglePlayback')" class="material-icons">{{
           playing ? "pause" : "play_arrow"
@@ -65,7 +65,7 @@
 </template>
 
 <script>
-import RatingService from '../service/RatingService'
+import RatingService from "../service/RatingService";
 
 export default {
   props: {
@@ -101,14 +101,14 @@ export default {
       if (val) {
         if (this.rating === undefined) {
           // load rating from rating-service
-          RatingService.getRatingForSong(this.song.id).then(rating => {
+          RatingService.getRatingForSong(this.song.id).then((rating) => {
             // if there is not rating yet, the server returns null
             // this will be represented as 0 stars
             this.rating = rating.averageRating || 0;
-          })
+          });
         }
       }
-    }
+    },
   },
   methods: {
     clicked() {
@@ -120,6 +120,14 @@ export default {
     wind(seconds) {
       let audio = this.$refs["audio-tag"];
       audio.currentTime += seconds;
+    },
+    backSkip() {
+      let audio = this.$refs["audio-tag"];
+      if (audio.currentTime > 3) {
+        audio.currentTime = 0;
+      } else {
+        this.$emit("skip", -1);
+      }
     },
   },
 };
