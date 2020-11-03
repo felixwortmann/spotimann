@@ -13,7 +13,6 @@ const port = 8080;
 
 // Database information
 const url = 'mongodb://database-rating-service:27017';
-// const url = 'mongodb://localhost:2000';
 const dbName = 'ratings';
 const dbCollection = 'ratings';
 
@@ -33,17 +32,16 @@ app.use(function (req, res, next) {
 	}
 
 	getPemAsPromise().then(pem => {
-		console.log('TRY', pem);
 		try {
 			const parsedToken = jsonwebtoken.verify(token, pem);
 			req.principal = parsedToken;
 			next();
 		} catch (err) {
-			console.warn(err);
+			console.error(err);
 			res.status(403).send('Invalid or missing credentials')
 		}
 	}).catch(err => {
-		console.log(err);
+		console.error(err);
 		res.status(500).send('Can not connect to authentication service');
 	});;
 });
@@ -114,7 +112,7 @@ app.get('/songID/:id/ratings', (req, res) => {
 				}
 			})
 			.catch(err => {
-				console.warn(err);
+				console.error(err);
 				res.status(500).send('Failed to process query');
 			})
 			.finally(_ => {
@@ -157,7 +155,7 @@ app.post('/songID/:id/ratings', (req, res) => {
 		}, (err, result) => {
 
 			if (err) {
-				console.log(err);
+				console.error(err);
 				res.status(500).send('Failed to process query');
 				return;
 			}
@@ -175,7 +173,7 @@ app.post('/songID/:id/ratings', (req, res) => {
 					}, (err, result) => {
 		
 						if (err) {
-							console.log(err);
+							console.error(err);
 							res.status(500).send('Failed to process query');
 							return;
 						}
@@ -191,7 +189,7 @@ app.post('/songID/:id/ratings', (req, res) => {
 				// Insert rating
 				collection.insertOne(newRating, (err, result) => {
 					if (err) {
-						console.log(err);
+						console.error(err);
 						res.status(500).send('Failed to process query');
 						return;
 					}
