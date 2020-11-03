@@ -1,5 +1,11 @@
 <template>
   <li class="song-tile" :class="{ expanded: expanded }">
+    <audio id="audio">
+      <source
+        :src="'http://localhost:3003/' + this.song.id + '.mp3'"
+        type="audio/mpeg"
+      />
+    </audio>
     <div class="top-section" @click="clicked()">
       <div class="note-image">
         <img src="/music.svg" alt="" />
@@ -20,7 +26,7 @@
           </div>
         </div>
         <div class="progress-bar">
-          <div class="progress" :style="{'width': progress * 100 + '%'}"></div>
+          <div class="progress" :style="{ width: progress * 100 + '%' }"></div>
         </div>
       </div>
     </div>
@@ -28,7 +34,9 @@
       <div class="controls">
         <i class="material-icons">skip_previous</i>
         <i class="material-icons">fast_rewind</i>
-        <i class="material-icons">play_arrow</i>
+        <i @click="playSong()" class="material-icons">{{
+          playing ? "pause" : "play_arrow"
+        }}</i>
         <i class="material-icons">fast_forward</i>
         <i class="material-icons">skip_next</i>
       </div>
@@ -57,7 +65,18 @@ export default {
   data() {
     return {
       rating: null,
-      progress: Math.random()
+      progress: 0,
+      playing: false,
+    };
+  },
+  mounted() {
+    let audio = document.getElementById("audio");
+    audio.ontimeupdate = (event) => {
+      this.$nextTick(function () {
+        this.progress = event.timeStamp / (audio.duration * 1000);
+        console.log(this.progress);
+        console.log(this);
+      });
     };
   },
   methods: {
@@ -71,6 +90,16 @@ export default {
         }
         console.log(this.song.title);
       }
+    },
+    playSong() {
+      console.log(this.song);
+      var audio = document.getElementById("audio");
+      if (this.playing) {
+        audio.pause();
+      } else {
+        audio.play();
+      }
+      this.playing = !this.playing;
     },
   },
 };
