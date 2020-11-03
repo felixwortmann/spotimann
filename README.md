@@ -15,13 +15,13 @@ docker exec -it spotimann_keycloak_1 /opt/jboss/keycloak/bin/standalone.sh -Djbo
 | --------------------------------- | ----- |
 | Vue Frontend                      | 3000  |
 | node-song-information-service     | 3001  |
-| node-song-streaming-service       | 3002  |
+| node-song-streaming-service       | 3003  |
 | database-song-information-service | 27017 |
 | keycloak                          | 8180  |
 
 ## Song-Streaming Service
-Dateien aus `/song-streaming-service/music` werden auf Port `3002` statisch geserved. <br> 
-Beispielsweise liegt `/song-streaming-service/music/music.mp3` unter `<hostname>:3002/music.mp3`<br>
+Dateien aus `/song-streaming-service/music` werden auf Port `3003` statisch geserved. <br> 
+Beispielsweise liegt `/song-streaming-service/music/music.mp3` unter `<hostname>:3003/music.mp3`<br>
 Die ID des Songs sollte als Name der Datei verwendet werden
 
 ## Keycloak
