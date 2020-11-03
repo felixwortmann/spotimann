@@ -54,7 +54,7 @@ class Authentication {
     }
 
     getToken() {
-        //this.instance.loadUserInfo().then(console.log);
+        return this.instance.token;
     }
 }
 

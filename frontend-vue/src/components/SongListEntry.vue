@@ -20,7 +20,7 @@
           </div>
         </div>
         <div class="progress-bar">
-          <div class="progress" :style="{'width': progress * 100 + '%'}"></div>
+          <div class="progress" :style="{ width: progress * 100 + '%' }"></div>
         </div>
       </div>
     </div>
@@ -32,14 +32,22 @@
         <i class="material-icons">fast_forward</i>
         <i class="material-icons">skip_next</i>
       </div>
-      <div class="ratings" v-if="this.rating != null">
-        <i v-for="i in this.rating" class="material-icons gold" v-bind:key="i">
-          star
-        </i>
+      <div
+        class="ratings"
+        v-if="this.rating != null"
+        @mouseleave="this.previewRate = null"
+      >
         <i
-          v-for="i in 10 - this.rating"
-          class="material-icons grey"
+          v-for="i in 10"
+          class="material-icons star-icon"
+          :class="{
+            gold: i <= rating && !previewRate,
+            grey: !this.previewRate ? i > rating : i > previewRate,
+            flame: i <= previewRate,
+          }"
           v-bind:key="i"
+          @mouseover="this.previewRate = i"
+          @click="rate(i)"
         >
           star
         </i>
@@ -49,6 +57,8 @@
 </template>
 
 <script>
+import RatingService from '../service/RatingService'
+
 export default {
   props: {
     song: Object,
@@ -57,7 +67,8 @@ export default {
   data() {
     return {
       rating: null,
-      progress: Math.random()
+      previewRate: null,
+      progress: Math.random(),
     };
   },
   methods: {
@@ -67,10 +78,16 @@ export default {
       if (!this.expanded) {
         if (this.rating === null) {
           // load rating from rating-service
+          RatingService.getRatingForSong(this.song.id).then(rating => {
+            console.log(rating);
+          })
           this.rating = Math.round(Math.random() * 10);
         }
         console.log(this.song.title);
       }
+    },
+    rate(rating) {
+      console.log("rate", rating);
     },
   },
 };
@@ -146,10 +163,38 @@ export default {
   font-size: 36px;
 }
 
-.ratings .gold {
-  color: #f5ab35;
+.ratings {
+  display: inline-block;
+  i {
+    transition: ease color 0.3s;
+  }
+  .gold {
+    color: #f5ab35;
+  }
+  .grey {
+    color: #dadfe1;
+  }
+  .flame {
+    color: #f03434;
+  }
 }
-.ratings .grey {
-  color: #dadfe1;
+
+.star-icon {
+  position: relative;
+  z-index: 1;
+  cursor: pointer;
+  &::before {
+    content: " ";
+    display: block;
+    border-radius: 24px;
+    width: 24px;
+    height: 24px;
+    position: absolute;
+    z-index: -1;
+    transition: all ease 0.3s;
+  }
+  &:hover::before {
+    background-color: #e8e8e8;
+  }
 }
 </style>
