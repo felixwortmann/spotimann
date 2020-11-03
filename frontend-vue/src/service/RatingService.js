@@ -1,6 +1,4 @@
-import axios from 'axios'
 import ApiService from './ApiService'
-import Authentication from './Authentication'
 
 const baseUrl = 'http://localhost:3002/'
 
@@ -12,12 +10,7 @@ class RatingService extends ApiService {
   }
 
   postRatingForSong(id, rating) {
-    return axios.post(baseUrl + id, {
-      headers: {
-        Authorization: 'Bearer ' + Authentication.getToken()
-      },
-      data: {rating: rating}
-    }).then(response => {
+    return this.authorizedPost(baseUrl + id, {rating: rating}).then(response => {
       return response.data
     })
   }
