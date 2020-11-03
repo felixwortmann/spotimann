@@ -101,7 +101,7 @@ export default {
   width: 100%;
   bottom: 0;
   .progress {
-    width: 50%;
+    width: 0;
     height: 100%;
     background-color: indigo;
   }
