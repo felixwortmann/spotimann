@@ -54,7 +54,7 @@ Unter http://keycloak:8180/auth/realms/spotimann/protocol/openid-connect/certs k
 
 ### GET Ratings for given songID
 
-**URL**: `/:songID`
+**URL**: `/songID/:songID/ratings`
 
 **Method**: `GET`
 
@@ -62,14 +62,10 @@ Unter http://keycloak:8180/auth/realms/spotimann/protocol/openid-connect/certs k
 
 **Response Body**:
 ```json
-[
-  {
-    "authorID": "string",
-    "authorName": "string",
-    "rating": "number (0 < x < 11)",
-    "comment": "string || null"
-  }
-]
+{
+  "averageRating": "number (1 <= X <= 10)",
+  "songID": "string"
+}
 ```
 
 ### POST Rating for given songID
