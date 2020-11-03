@@ -43,3 +43,50 @@ Dazu muss folgender Befehl ausgeführt werden: `docker rm spotimann_keycloak_1` 
 ### Technische Dinge
 
 Unter http://keycloak:8180/auth/realms/spotimann/protocol/openid-connect/certs kann ein JSON abgerufen werden, das Infos zu dem verwendeten Public RSA Key enthält.
+
+
+## Rating Service (API Endpunkte)
+
+
+### GET Ratings for given songID
+
+**URL**: `/:songID`
+
+**Method**: `GET`
+
+**Auth required**: YES
+
+**Response Body**:
+```json
+[
+  {
+    "authorID": "string",
+    "authorName": "string",
+    "rating": "number (0 < x < 11)",
+    "comment": "string || null"
+  }
+]
+```
+
+### POST Rating for given songID
+
+Jeder User kann für einen Song nur ein Rating abgeben. Hat der User bereits ein Rating abgegeben, wird das alte überschrieben.
+
+**URL**: `/:songID`
+
+**Method**: `POST`
+
+**Auth required**: YES
+
+**Request Body**:
+```json
+  {
+    "rating": "number (0 < x < 11)",
+    "comment": "string || null"
+  }
+```
+
+**Response Body**:
+```
+empty
+```
