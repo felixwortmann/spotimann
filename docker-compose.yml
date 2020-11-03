@@ -4,6 +4,7 @@ services:
   ### KEYCLOAK ###
   keycloak:
     image: quay.io/keycloak/keycloak:11.0.2
+    container_name: "keycloak"
     ports:
       - "8180:8080"
     volumes:
