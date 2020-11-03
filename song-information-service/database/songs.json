@@ -3,21 +3,49 @@
         "id": "1",
         "title": "Savage",
         "album": "Suga",
-        "interpret": "Megan Thee Stallion",
+        "artist": "Megan Thee Stallion",
         "year": "2020"
     },
     {
         "id": "2",
         "title": "Physical",
         "album": "Future Nostalgia",
-        "interpret": "Dua Lipa",
+        "artist": "Dua Lipa",
         "year": "2020"
     },
     {
         "id": "3",
-        "title": "Rain on me",
+        "title": "Rain On Me",
         "album": "Chromatica",
-        "interpret": "Lady Gaga",
+        "artist": "Lady Gaga",
         "year": "2020"
+    },
+    {
+        "id": "4",
+        "title": "Car Radio",
+        "album": "Vessel",
+        "artist": "Twenty One Pilots",
+        "year": "2013"
+    },
+    {
+        "id": "5",
+        "title": "BITE",
+        "album": "Blue Neighbourhood (Deluxe)",
+        "artist": "Troye Sivan",
+        "year": "2015"
+    },
+    {
+        "id": "6",
+        "title": "Holding on to You",
+        "album": "Vessel",
+        "artist": "Twenty One Pilots",
+        "year": "2013"
+    },
+    {
+        "id": "7",
+        "title": "Hope",
+        "album": "?",
+        "artist": "XXXTENTACION",
+        "year": "2018"
     }
 ]
