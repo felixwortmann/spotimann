@@ -16,7 +16,7 @@ const url = 'mongodb://localhost:27018';
 const dbName = 'ratings';
 const dbCollection = 'ratings';
 
-// Express initiali
+// Express initial
 const app = express();
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
