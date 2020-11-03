@@ -1,41 +1,42 @@
 [
   {
-    "songID": "1",
-    "ratings": [
-      {
-        "authorID": "1",
-        "authorName": "Karl",
-        "rating": 9,
-        "comment": "Wunderschön!"
-      },
-      {
-        "authorID": "2",
-        "authorName": "Manfred",
-        "rating": 2,
-        "comment": "Ekelhaff!"
-      },
-      {
-        "authorID": "4",
-        "authorName": "Dieter",
-        "rating": 1,
-        "comment": null
-      }
-    ]
+    "songID": "abc",
+    "authorID": "karl",
+    "rating": 1
   },
   {
-    "songID": "2",
-    "ratings": [
-      {
-        "authorID": "1",
-        "authorName": "Karl",
-        "rating": 10,
-        "comment": "Meine Französischlehrering würde sagen: Magnifique!"
-      }
-    ]
+    "songID": "abc",
+    "authorID": "dieter",
+    "rating": 6
   },
   {
-    "songID": "3",
-    "ratings": [
-    ]
+    "songID": "abc",
+    "authorID": "manfred",
+    "rating": 10
+  },
+  {
+    "songID": "abc",
+    "authorID": "klaus",
+    "rating": 2
+  },
+  {
+    "songID": "def",
+    "authorID": "karl",
+    "rating": 7
+  },
+  {
+    "songID": "def",
+    "authorID": "albert",
+    "rating": 9
+  },
+  {
+    "songID": "def",
+    "authorID": "eberhard",
+    "rating": 9
+  },
+  {
+    "songID": "ghi",
+    "authorID": "petra",
+    "rating": 2
   }
 ]
