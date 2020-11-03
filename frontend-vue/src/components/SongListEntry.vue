@@ -75,7 +75,7 @@ export default {
   },
   data() {
     return {
-      rating: null,
+      rating: undefined,
       previewRate: null,
       progress: 0,
     };
@@ -97,19 +97,22 @@ export default {
         audio.pause();
       }
     },
-  },
-  methods: {
-    clicked() {
-      this.$emit("expand");
-      // was not expanded before, should check if ratings are loaded
-      if (!this.expanded) {
-        if (this.rating === null) {
+    expanded: function (val) {
+      if (val) {
+        if (this.rating === undefined) {
           // load rating from rating-service
           RatingService.getRatingForSong(this.song.id).then(rating => {
+            // if there is not rating yet, the server returns null
+            // this will be represented as 0 stars
             this.rating = rating.averageRating || 0;
           })
         }
       }
+    }
+  },
+  methods: {
+    clicked() {
+      this.$emit("expand");
     },
     rate(rating) {
       console.log("rate", rating);
