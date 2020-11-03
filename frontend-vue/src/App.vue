@@ -1,18 +1,23 @@
 <template>
 <div>
-  Joa nichts weiter
-  <br>
+  <h1>Willkommen bei SpotiMann</h1>
   <Login></Login>
-  <SongList></SongList>
+  <SongList v-if="auth.state.loggedIn"></SongList>
 </div>
 </template>
 
 <script>
 import Login from './components/Login.vue'
 import SongList from './components/SongList'
+import Authentication from './service/Authentication'
 
 export default {
   name: 'App',
+  data() {
+    return {
+      auth: Authentication
+    }
+  },
   components: {
     Login,
     SongList
