@@ -4,18 +4,23 @@
       <div class="note-image">
         <img src="/music.svg" alt="" />
       </div>
-      <div class="song-details">
-        <div>
-          <span class="title">
-            {{ song.title }}
-          </span>
-          <span class="album">
-            {{ song.album }}
-          </span>
-        </div>
+      <div class="top-aside">
+        <div class="song-details">
+          <div>
+            <span class="title">
+              {{ song.title }}
+            </span>
+            <span class="album">
+              {{ song.album }}
+            </span>
+          </div>
 
-        <div>
-          <span class="artist"> {{ song.interpret }}, {{ song.year }} </span>
+          <div>
+            <span class="artist"> {{ song.interpret }}, {{ song.year }} </span>
+          </div>
+        </div>
+        <div class="progress-bar">
+          <div class="progress" :style="{'width': progress * 100 + '%'}"></div>
         </div>
       </div>
     </div>
@@ -28,8 +33,16 @@
         <i class="material-icons">skip_next</i>
       </div>
       <div class="ratings" v-if="this.rating != null">
-        <i v-for="i in this.rating" class="material-icons gold" v-bind:key="i">star</i>
-        <i v-for="i in 10 - this.rating" class="material-icons grey" v-bind:key="i">star</i>
+        <i v-for="i in this.rating" class="material-icons gold" v-bind:key="i">
+          star
+        </i>
+        <i
+          v-for="i in 10 - this.rating"
+          class="material-icons grey"
+          v-bind:key="i"
+        >
+          star
+        </i>
       </div>
     </div>
   </li>
@@ -44,7 +57,8 @@ export default {
   data() {
     return {
       rating: null,
-    }
+      progress: Math.random()
+    };
   },
   methods: {
     clicked() {
@@ -53,7 +67,7 @@ export default {
       if (!this.expanded) {
         if (this.rating === null) {
           // load rating from rating-service
-          this.rating = Math.round(Math.random() * 10)
+          this.rating = Math.round(Math.random() * 10);
         }
         console.log(this.song.title);
       }
@@ -67,6 +81,7 @@ export default {
   height: 80px;
   /*border: 1px solid #ccc;*/
   border-radius: 5px;
+  background-color: #fff;
   margin-bottom: 20px;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
   transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
@@ -78,7 +93,18 @@ export default {
 
 .top-section {
   display: flex;
-  align-items: center;
+  align-items: stretch;
+}
+
+.progress-bar {
+  height: 3px;
+  width: 100%;
+  bottom: 0;
+  .progress {
+    width: 50%;
+    height: 100%;
+    background-color: indigo;
+  }
 }
 
 .note-image {
@@ -101,8 +127,15 @@ export default {
   font-weight: 700;
 }
 
-.song-details {
+.top-aside {
   flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.song-details {
+  margin-top: 20px;
   margin-right: 80px;
   span {
     margin: 5px;
