@@ -72,7 +72,7 @@ Unter http://keycloak:8180/auth/realms/spotimann/protocol/openid-connect/certs k
 
 Jeder User kann für einen Song nur ein Rating abgeben. Hat der User bereits ein Rating abgegeben, wird das alte überschrieben.
 
-**URL**: `/:songID`
+**URL**: `/songID/:songID/ratings`
 
 **Method**: `POST`
 
@@ -81,8 +81,7 @@ Jeder User kann für einen Song nur ein Rating abgeben. Hat der User bereits ein
 **Request Body**:
 ```json
   {
-    "rating": "number (0 < x < 11)",
-    "comment": "string || null"
+    "rating": "number (0 < x < 11)"
   }
 ```
 
