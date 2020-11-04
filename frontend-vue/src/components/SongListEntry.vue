@@ -32,7 +32,7 @@
     </div>
     <div class="player-section">
       <div class="controls">
-        <i @click="this.$emit('skip', -1)" class="material-icons">skip_previous</i>
+        <i @click="backSkip()" class="material-icons">skip_previous</i>
         <i @click="wind(-5)" class="material-icons">fast_rewind</i>
         <i @click="this.$emit('togglePlayback')" class="material-icons">{{
           playing ? "pause" : "play_arrow"
@@ -40,14 +40,22 @@
         <i @click="wind(5)" class="material-icons">fast_forward</i>
         <i @click="this.$emit('skip', +1)" class="material-icons">skip_next</i>
       </div>
-      <div class="ratings" v-if="this.rating != null">
-        <i v-for="i in this.rating" class="material-icons gold" v-bind:key="i">
-          star
-        </i>
+      <div
+        class="ratings"
+        v-if="this.rating != null"
+        @mouseleave="this.previewRate = null"
+      >
         <i
-          v-for="i in 10 - this.rating"
-          class="material-icons grey"
+          v-for="i in 10"
+          class="material-icons star-icon"
+          :class="{
+            gold: i <= rating && !previewRate,
+            grey: !this.previewRate ? i > rating : i > previewRate,
+            flame: i <= previewRate,
+          }"
           v-bind:key="i"
+          @mouseover="this.previewRate = i"
+          @click="rate(i)"
         >
           star
         </i>
@@ -57,6 +65,8 @@
 </template>
 
 <script>
+import RatingService from "../service/RatingService";
+
 export default {
   props: {
     song: Object,
@@ -65,7 +75,8 @@ export default {
   },
   data() {
     return {
-      rating: null,
+      rating: undefined,
+      previewRate: null,
       progress: 0,
     };
   },
@@ -86,22 +97,38 @@ export default {
         audio.pause();
       }
     },
+    expanded: function (val) {
+      if (val) {
+        if (this.rating === undefined) {
+          // load rating from rating-service
+          RatingService.getRatingForSong(this.song.id).then((rating) => {
+            // if there is not rating yet, the server returns null
+            // this will be represented as 0 stars
+            this.rating = rating.averageRating || 0;
+          });
+        }
+      }
+    },
   },
   methods: {
     clicked() {
       this.$emit("expand");
-      // was not expanded before, should check if ratings are loaded
-      if (!this.expanded) {
-        if (this.rating === null) {
-          // load rating from rating-service
-          this.rating = Math.round(Math.random() * 10);
-        }
-      }
+    },
+    rate(rating) {
+      console.log("rate", rating);
     },
     wind(seconds) {
       let audio = this.$refs["audio-tag"];
       audio.currentTime += seconds;
-    }
+    },
+    backSkip() {
+      let audio = this.$refs["audio-tag"];
+      if (audio.currentTime > 3) {
+        audio.currentTime = 0;
+      } else {
+        this.$emit("skip", -1);
+      }
+    },
   },
 };
 </script>
@@ -176,10 +203,38 @@ export default {
   font-size: 36px;
 }
 
-.ratings .gold {
-  color: #f5ab35;
+.ratings {
+  display: inline-block;
+  i {
+    transition: ease color 0.3s;
+  }
+  .gold {
+    color: #f5ab35;
+  }
+  .grey {
+    color: #dadfe1;
+  }
+  .flame {
+    color: #f03434;
+  }
 }
-.ratings .grey {
-  color: #dadfe1;
+
+.star-icon {
+  position: relative;
+  z-index: 1;
+  cursor: pointer;
+  &::before {
+    content: " ";
+    display: block;
+    border-radius: 24px;
+    width: 24px;
+    height: 24px;
+    position: absolute;
+    z-index: -1;
+    transition: all ease 0.3s;
+  }
+  &:hover::before {
+    background-color: #e8e8e8;
+  }
 }
 </style>

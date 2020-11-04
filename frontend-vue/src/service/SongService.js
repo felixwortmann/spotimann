@@ -1,10 +1,10 @@
-import axios from 'axios'
+import ApiService from './ApiService'
 
 const baseUrl = 'http://localhost:3001/'
 
-class SongService {
+class SongService extends ApiService {
   getAllSongs() {
-    return axios.get(baseUrl + 'songs').then(response => {
+    return this.authorizedRequest(baseUrl + 'songs').then(response => {
       return response.data
     })
   }
