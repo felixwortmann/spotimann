@@ -81,6 +81,8 @@ services:
     ports:
       - 3000:8080
     container_name: vue-frontend
+    depends_on:
+      - keycloak
 
 volumes:
   mongo-data-song-information:
