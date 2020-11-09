@@ -115,7 +115,13 @@ export default {
       this.$emit("expand");
     },
     rate(rating) {
-      console.log("rate", rating);
+      RatingService.postRatingForSong(this.song.id, rating).then((response) => {
+        if (response.status == 201) {
+          RatingService.getRatingForSong(this.song.id).then((rating) => {
+            this.rating = rating.averageRating;
+          });
+        }
+      });
     },
     wind(seconds) {
       let audio = this.$refs["audio-tag"];
