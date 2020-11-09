@@ -17,10 +17,9 @@ export default class ApiService {
       let options = {
         headers: {
           Authorization: 'Bearer ' + token
-        },
-        data: data
+        }
       }
-      return axios.post(url, options)
+      return axios.post(url, data, options)
     })
   }
 }
